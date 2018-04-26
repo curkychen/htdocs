@@ -63,7 +63,7 @@ include('script/signInUp/signUp.php');
 
 <div id="signUp" align="center">
         <form class="well form-horizontal" action="script/signInUp/signUp.php" method="post"  id="contact_form">
-            <fieldset>
+<!--            <fieldset>-->
                 <!-- Form Name -->
                 <legend>Join Us Today!</legend>
 
@@ -105,14 +105,17 @@ include('script/signInUp/signUp.php');
 <!--                        <button type="submit" class="btn btn-warning" >Register <span class="glyphicon glyphicon-send"></span></button>-->
 <!--                    </div>-->
 <!--                </div>-->
-            </fieldset>
+<!--            </fieldset>-->
             <div class="form-group">
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning" >Register <span class="glyphicon glyphicon-send"></span></button>
+<!--                    <button type="submit" class="btn btn-warning" >Register <span class="glyphicon glyphicon-send"></span></button>-->
+                    <p><input type="submit"  class="submitbutton" name="submit" value="Register" /></p>
                 </div>
             </div>
         </form>
+<!--    use this command to check the request type-->
+    <?php echo $_SERVER["REQUEST_METHOD"]; ?>
     <span class="error"><?php echo($generalError);?></span>
 </div><!-- /.container -->
 

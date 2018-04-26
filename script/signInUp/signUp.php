@@ -6,8 +6,10 @@
  * Time: 7:03 PM
  */
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//echo "successfully include the php!";
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    echo "sign up";
     $nameError = "";
     $pwError = "";
     $signUpError = "";
@@ -19,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $redirectionAddress = "";
     $loginUserName = "";
     $loginPW ="";
-    echo "sign up";
+    //echo "sign up";
     if (!empty($_POST['signUpName'])) {
         $signUpName = $_POST['signUpName'];
     }
@@ -59,6 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     mysqli_close($dbc);
+} else {
+    echo "do not get it";
 }
 
 
