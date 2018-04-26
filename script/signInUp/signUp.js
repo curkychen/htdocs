@@ -3,7 +3,7 @@
  */
 //cite https://codepen.io/jaycbrf/pen/iBszr
 console.log("enter sign up javascript");
-$(document).ready(function() {
+  $(document).ready(function() {
     // $('#signIn').bootstrapValidator({
     //     // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
     //     feedbackIcons: {
@@ -78,5 +78,5 @@ $(document).ready(function() {
             }
         }
     })
-});
+ });
 
