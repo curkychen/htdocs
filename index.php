@@ -3,7 +3,7 @@ session_start();
 ?>
 
 <?php
-//    include('search.php');
+//    include('searchPage.php');
 include ('header.php');
 ?>
 <br>
@@ -14,6 +14,7 @@ include ('header.php');
         <p class="lead">The cookbook for your favorite food, you can select the category to view the popular food.</p>
         <p class="lead">Register to follow your favorite author and share your recipe.</p>
         <a class="btn btn-lg btn-primary" href="SignInUpOut/signUp.html" role="button">Register here &raquo;</a>
+        <a class="btn btn-lg btn-primary" href="search/searchPage.php" role="button">Search here &raquo;</a>
     </div>
 </main>
 

@@ -3,7 +3,7 @@ session_start();
 ?>
 <?php
     include('../header.php');
-    //include('includes/search.php');
+    //include('includes/searchPage.php');
 ?>
 
 

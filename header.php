@@ -44,12 +44,12 @@ session_start();
 <!--            <li><a href="#">Sign up</a></li>-->
 
             <li>
-                <form class="form-inline my-2 my-lg-0" method="post" action="search.php">
+                <form class="form-inline my-2 my-lg-0" method="post" action="search/searchScript.php">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="searchContent">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </li>
-            <li><a href="search.php">Search</a></li>
+            <li><a href="search/searchPage.php">Search</a></li>
         </ul>
     </div>
 </nav>

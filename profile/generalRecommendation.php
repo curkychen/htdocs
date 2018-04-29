@@ -5,7 +5,7 @@
  * Date: 4/28/18
  * Time: 8:54 PM
  */
-session_start();
+//session_start();
 require_once('../script/db/db_connect.php');
 $postUser = $_SESSION['login_user'];
 //            $tag=$_GET["tag"];
