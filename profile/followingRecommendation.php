@@ -18,49 +18,17 @@ if (mysqli_num_rows($result) >= 1) {
         echo "<li class=\"list-group-item\">
                        <h3>".$row["title"]."</h3>
                        <p>".$row["postDate"]."</p>
-                       <p>".$row["Content"]."</p>
-                </li>";
+                       <p>".$row["Content"]."</p>";
         $vote = $row["votes"];
         echo "<button id=\"btnfun\" name=\"btnfun\" onClick='location.href=\"?button".$row["postId"]."=1\"'>Vote</button>";
         if($_GET['button'.$row["postId"]]){
             $vote = $vote + 1;
-            $sql2 = "update posts set votes = ".$vote." where postId = ".$row[postId];
+            $sql2 = "update posts set votes = ".$vote." where postId = ".$row["postId"];
             $result2 = @mysqli_query($dbc, $sql);
         }
-        echo "<div class=\"overlay\"></div>
-<div class=\"wrapper\">
-    <button type=\"button\" class=\"show-form\">Login</button>
-    
-    <form class=\"form-login\">
-        <div class=\"header\">
-            <h3>Enter Your Username And Password</h3>
-        </div>
-        <div class=\"content\">
-            <div class=\"group\">
-                <label>Username</label>
-                <input type=\"text\" class=\"username\" placeholder=\"Username\">
-            </div>
-            <span class=\"error error-username\">Please Type Username!</span>
-            <div class=\"group\">
-                <label>Password</label>
-                <input type=\"password\" class=\"password\" placeholder=\"Password\">
-            </div>
-            <span class=\"error error-password\">Please Type Password!</span>
-            <div class=\"group-show-password\">
-                <input type=\"checkbox\" class=\"toggle-password\" id=\"toggle-password\">
-                <label for=\"toggle-password\">Show Password</label>
-            </div>
-        </div>
-        <div class=\"welcome\"></div>
-        <div class=\"footer\">
-            <div class=\"buttons\">
-                <button type=\"button\" class=\"btn-login\">Login</button>
-                <button type=\"button\" class=\"btn-cancel\">Cancel</button>
-            </div>
-        </div>
-    </form>
-</div>";
-                    }
+        echo "<p><a href=\"addTag.php?\postId=".$row["postId"].">Add to favorite</p>";
+        echo "</li>";
+    }
 } else {
     echo "<p>Nothing inside</p>";
 }

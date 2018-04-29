@@ -1,19 +1,10 @@
 <?php
 session_start();
 ?>
-/**
-* Created by PhpStorm.
-* User: yiminzhou
-* Date: 12/7/17
-* Time: 01:09
-*/
-
-
-
-
 
 <?php
-    include('header.php');
+//    include('search.php');
+include ('header.php');
 ?>
 <br>
 
