@@ -42,11 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $post_tag = $_POST['tag'];
         }
+        $post_user = $_SESSION['login_user'];
 //        $post_votenum = 0;
 
-        if (empty($post_brandErr) && empty($post_priceErr) && empty($post_ratingErr) && empty($post_pet_categoryErr)) {
+        if (empty($title_error) && empty($category_error) && empty($content_error) && empty($tag_error) && !empty($post_user)) {
             require('../script/db/db_connect.php');
-            $post_user = $_SESSION['login_user'];
+//            $post_user = $_SESSION['login_user'];
             $date = date("Y-m-d h:i:sa");
             $post_id = $date . $post_user;
             $sql = "INSERT INTO posts (postId, postDate, title, content, category) 

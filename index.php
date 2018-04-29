@@ -69,9 +69,9 @@ include ('header.php');
                 echo "</li>";
             }
         } else {
-            echo "<li class=\"list-group-item\">
+            echo "<div align='center'><ul><li class=\"list-group-item\">
                     <p>Nothing inside</p>
-                    </li>";
+                    </li></ul></div>";
         }
     }
 

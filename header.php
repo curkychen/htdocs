@@ -31,14 +31,17 @@ session_start();
             </li>
 <!--            <li><a href='search/search.php'>Search</a>-->
             <?php
+            session_start();
+            echo "enter the navi php";
+            echo $_SESSION['login_user'];
             if(empty($_SESSION['login_user'])) {
-                echo "<li><a href='SignInUpOut/signIn.html'>Sign In</a>";
-                echo "</li><li><a href='SignInUpOut/signUp.html'>Sign Up</a></li>";
+                echo "<li><a href='/SignInUpOut/signIn.html'>Sign In</a>";
+                echo "</li><li><a href='/SignInUpOut/signUp.html'>Sign Up</a></li>";
             } else {
                 //payground is used to generate recommendation
-                echo "<li><a href='header.php'>PLAYGROUND</a></li>";
-                echo "<li><a href='profile/profile.php'>HOME</a></li>";
-                echo "<li><a href='SignInUpOut/SignOut.php'>SIGN OUT</a></li>";
+                echo "<li><a href='/profile/generalRecommendation.php'>PLAYGROUND</a></li>";
+                echo "<li><a href='/profile/profile.php'>DASHBOARD</a></li>";
+                echo "<li><a href='/SignInUpOut/SignOut.php'>SIGN OUT</a></li>";
             }
             ?>
 <!--            <li><a href="#">Sign up</a></li>-->
@@ -49,7 +52,7 @@ session_start();
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </li>
-            <li><a href="search/searchPage.php">Search</a></li>
+            <li><a href="/search/searchPage.php">Search</a></li>
         </ul>
     </div>
 </nav>

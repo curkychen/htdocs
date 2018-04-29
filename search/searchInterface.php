@@ -20,11 +20,9 @@ class SearchEngineForCook implements  searchEngine{
             if (in_array($words[$x], $common_words)) {
 
             } else {
-                //add uncommon words into an array
                 array_push($uncommon_words,$words[$x]);
             }
         }
-//        $nouns = array("Volvo", "BMW", "Toyota");
         return $uncommon_words;
     }
 }

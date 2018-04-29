@@ -41,8 +41,9 @@ function signIn($loginUserName, $loginPW, $dbc) {
 
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        session_start();
         $_SESSION['login_user'] = $row['userId'];
-        $page = '../profile.php';
+        $page = '../profile/profile.php';
         $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
         $url = rtrim($url, '/\\');
         $url .= '/' . $page;
