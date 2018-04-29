@@ -1,0 +1,142 @@
+.dropdown-submenu {
+    width: 196px;
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    width: 260px;
+    top: 0;
+    right: 100%;
+    margin-top: -6px;
+    margin-right: -1px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-right-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-right-color: #fff;
+}
+
+.dropdown-submenu:hover {
+    background: white;
+}
+
+.dropdown-submenu.pull-right {
+    float: none;
+}
+
+.dropdown-submenu.pull-right>.dropdown-menu {
+    right: -100%;
+    margin-right: 10px;
+}
+.jumbotron {
+    background-color: #fffdfd;
+    color: black;
+    padding: 66px 136px;
+    padding-bottom: 0;
+    font-family: Montserrat, sans-serif;
+}
+.navbar {
+    margin-bottom: 0;
+    background-color: #d1d8bf;
+    z-index: 9999;
+    border: 0;
+    font-size: 14px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+    font-family: Montserrat, sans-serif;
+}
+.navbar li a, .navbar .navbar-brand {
+    color: black !important;
+}
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #000000 !important;
+    background-color: #fff !important;
+}
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+}
+.mainbody {
+    background-color: rgba(255, 248, 241, 0);
+}
+.fill {
+    background-color: black;
+    height: 1px;
+}
+.error {
+    color: red;
+}
+.redirect {
+    color: darkblue;
+}
+.centerdiv {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.postdisplay {
+    text-align: left;
+    padding-left: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: large;
+    background-color: antiquewhite;
+    width: fit-content;
+    border-style: groove;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 50%;
+    margin-bottom: 10px;
+}
+h4 {
+    font-family: "Apple LiGothic";
+    font-size: 18px;
+}
+.like_favorite {
+    text-align: right;
+    padding-right: 10px;
+    padding-bottom: 16px;
+}
+.submitbutton {
+    background-color: antiquewhite;
+    font-family: "Apple LiGothic";
+    font-style: italic;
+    font-size: 24px;
+    border-style: groove;
+}
+button {
+    background-color: antiquewhite;
+    font-family: "Apple LiGothic";
+    font-style: italic;
+    font-size: 24px;
+    border-style: groove;
+}
+.gotobutton {
+    background-color: antiquewhite;
+    font-family: "Apple LiGothic";
+    font-style: italic;
+    font-size: 60px;
+    border-style: none;
+}
+a:hover {
+    font-size: 24px;
+    color: chocolate;
+}

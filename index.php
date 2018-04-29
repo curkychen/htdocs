@@ -8,147 +8,76 @@ include ('header.php');
 ?>
 <br>
 
-<div class="centerdiv" style="background-color: #FFDCB9;width: fit-content; border-style: none; padding-left: 16px; padding-right: 16px; width: 50%; margin-bottom: 10px;">
-    <h1 style="color: darkblue">New here? Suggestions for you!</h1>
-    <div style="text-align: center; font-family: 'Andale Mono'; font-size: 18px;">
-        <a href="sign_up.php">Want to have more fun? Register here!</a><br>
-        <a href="login.php">Have registered? Login here to share your opinion!</a><br>
-        Searching for pet category and breed on navigation bar :)<br>
-        Searching what you like in searching field! Try it now!<br><br>
+<main role="main" class="container">
+    <div class="jumbotron">
+        <h1>Welcome to everyday cooking</h1>
+        <p class="lead">The cookbook for your favorite food, you can select the category to view the popular food.</p>
+        <p class="lead">Register to follow your favorite author and share your recipe.</p>
+        <a class="btn btn-lg btn-primary" href="SignInUpOut/signUp.html" role="button">Register here &raquo;</a>
     </div>
-</div>
-
-
-
+</main>
 
 <div class="centerdiv col-sm-4">
 
-    <h3>Lots of pet categories and breeds:</h3>
-    <br>
+    <h3>The most popular post:</h3>
     <?php
-    require('mysqli_connect.php');
-
-    $postuser = $_SESSION['login_user'];
-
-    $sql_pet = "SELECT petcategory,petbreed FROM posts";
-    //WHERE postuser='$postuser'
-
-    $result = @mysqli_query($dbc, $sql_pet);
-
-    if (mysqli_num_rows($result) >= 1) {
-
-
-        while($row = mysqli_fetch_assoc($result)) {
-
-            echo '<p style="font-family: Zapfino;font-style: italic;font-size: 16px">';
-            echo $row['petcategory']. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo $row['petbreed']. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo '</p>';
-
+    require_once('script/db/db_connect.php');
+    $sql = "select * from posts order by votes";
+    $result = @mysqli_query($dbc, $sql);
+    if(isset($_SESSION['login_user'])) {
+        $postUser = $_SESSION['login_user'];
+        if (mysqli_num_rows($result) >= 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+                //            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
+                echo "<li class=\"list-group-item\">
+        <h3>".$row["title"]."</h3>
+        <p>".$row["postDate"]."</p>
+        <p>".$row["Content"]."</p>";
+                $vote = $row["votes"];
+                echo "<button id=\"btnfun\" name=\"btnfun\" onClick='location.href=\"?button".$row["postId"]."=1\"'>Vote</button>";
+                if($_GET['button'.$row["postId"]]) {
+                    $vote = $vote + 1;
+                    $sql2 = "update posts set votes = .".$vote . " where postId = " . $row["postId"];
+                    $result2 = @mysqli_query($dbc, $sql2);
+                }
+                $sql3 = "select * from follow where userId1 = ".$postUser." and userId2 = ".$row["userId"];
+                $result3 =  @mysqli_query($dbc, $sql3);
+                if(mysqli_num_rows($result3) == 0) {
+                    echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$row["userId"]."=1\"'>Follow the Author</button>";
+                    if($_GET['button_follow'.$row["userId"]]) {
+                        $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$row["userId"].")";
+                        $result2 = @mysqli_query($dbc, $sql);
+                    }
+                }
+                echo "<a href=\"otherUserProfile.php?userId=".$row["postId"]."\">View the author profile</a>";
+                echo "<p><a href=\"addTag.php?\postId=".$row["postId"].">Add to favorite</p>";
+                echo "</li>";
+            }
+        } else {
+            echo "<li class=\"list-group-item\">
+                    <p>Nothing inside</p>
+                    </li>";
         }
     } else {
-        echo $postuser;
-        echo "0 results";
+        if (mysqli_num_rows($result) >= 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+                echo "<li class=\"list-group-item\">
+                        <h3>".$row["title"]."</h3>
+                        <p>".$row["postDate"]."</p>
+                        <p>".$row["Content"]."</p>";
+                echo "</li>";
+            }
+        } else {
+            echo "<li class=\"list-group-item\">
+                    <p>Nothing inside</p>
+                    </li>";
+        }
     }
 
     mysqli_close($dbc);
-
     ?>
 </div>
 
-<div class="centerdiv col-sm-4">
-
-    <h3>Lots of pet food brand:</h3>
-    <br>
-    <?php
-    require('mysqli_connect.php');
-
-    $postuser = $_SESSION['login_user'];
-
-    $sql_brand = "SELECT brandname FROM posts";
-    //WHERE postuser='$postuser'
-
-    $result = @mysqli_query($dbc, $sql_brand);
-
-    if (mysqli_num_rows($result) >= 1) {
-
-
-        while($row = mysqli_fetch_assoc($result)) {
-
-            echo '<p style="font-family: Zapfino;font-style: italic;font-size: 16px">';
-            echo $row['brandname']. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo '</p>';
-
-        }
-    } else {
-        echo $postuser;
-        echo "0 results";
-    }
-
-    mysqli_close($dbc);
-
-    ?>
-</div>
-
-
-<div class="centerdiv col-sm-4">
-
-    <h3>Lots of other users and comments:</h3>
-    <br>
-    <?php
-    require('mysqli_connect.php');
-
-    $postuser = $_SESSION['login_user'];
-
-    $sql_user_comment = "SELECT postuser,comment FROM posts";
-    //WHERE postuser='$postuser'
-
-    $result = @mysqli_query($dbc, $sql_user_comment);
-
-    if (mysqli_num_rows($result) >= 1) {
-
-
-        while($row = mysqli_fetch_assoc($result)) {
-
-            echo '<p style="font-family: Zapfino;font-style: italic;font-size: 16px">';
-            echo $row['postuser']. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo $row['comment']. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo '</p>';
-
-        }
-    } else {
-        echo $postuser;
-        echo "0 results";
-    }
-
-    mysqli_close($dbc);
-
-    ?>
-</div>
-
-
-
-<!--<div class="centerdiv">-->
-<!--    <button class="gotobutton" style="background-color: #FFDCB9"><a href="register.php">Ready?GO!</a></button>-->
-<!---->
-<!--</div>-->
-
-
-
-
-
-
-<!--<form action="homepage.php">-->
-<!--    <input type="hidden" name="like_id" value="$row['id']">-->
-<!--    <input type="hidden" name="like_postuser" value="$row['postuser']">-->
-<!--    <input type="hidden" name="like_brandname" value="$row['brandname']">-->
-<!--    <input type="hidden" name="like_price" value="$row['price']">-->
-<!--    <input type="hidden" name="like_rating" value="$row['rating']">-->
-<!--    <input type="hidden" name="like_petcategory" value="$row['petcategory']">-->
-<!--    <input type="hidden" name="like_petbreed" value="$row['petbreed']">-->
-<!--    <input type="hidden" name="like_comment" value="$row['comment']">-->
-<!--    <input type="submit" name="like_submit" value="Like">-->
-<!--</form>-->
 
 
 </body>
