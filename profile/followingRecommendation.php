@@ -29,10 +29,10 @@ if (mysqli_num_rows($result) >= 1) {
         echo "<button id=\"btnfun\" name=\"btnfun\" onClick='location.href=\"?button".$row["postId"]."=1\"'>Vote</button>";
         if($_GET['button'.$row["postId"]]){
             $vote = $vote + 1;
-            $sql2 = "update posts set votes = ".$vote." where postId = ".$row["postId"];
+            $sql2 = "update posts set votes = ".$vote." where postId = \" ".$row["postId"] ."\"";
             $result2 = @mysqli_query($dbc, $sql);
         }
-        echo "<p><a href=\"addTag.php?\postId=".$row["postId"].">Add to favorite</p>";
+        echo "<p><a href=\"addTag.php?\postId=".$row["postId"]."\">Add to favorite</a></p>";
         echo "</li>";
     }
 } else {

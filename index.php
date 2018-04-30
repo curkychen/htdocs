@@ -13,8 +13,8 @@ include ('header.php');
         <h1>Welcome to everyday cooking</h1>
         <p class="lead">The cookbook for your favorite food, you can select the category to view the popular food.</p>
         <p class="lead">Register to follow your favorite author and share your recipe.</p>
-        <a class="btn btn-lg btn-primary" href="SignInUpOut/signUp.html" role="button">Register here &raquo;</a>
-        <a class="btn btn-lg btn-primary" href="search/searchPage.php" role="button">Search here &raquo;</a>
+        <a class="btn btn-lg btn-primary" href="/SignInUpOut/signUp.html" role="button">Register here &raquo;</a>
+        <a class="btn btn-lg btn-primary" href="/search/searchPage.php" role="button">Search here &raquo;</a>
     </div>
 </main>
 
@@ -50,8 +50,8 @@ include ('header.php');
                         $result2 = @mysqli_query($dbc, $sql);
                     }
                 }
-                echo "<a href=\"otherUserProfile.php?userId=".$row["postId"]."\">View the author profile</a>";
-                echo "<p><a href=\"addTag.php?\postId=".$row["postId"].">Add to favorite</p>";
+                echo "<a href=\"/profile/otherUserProfile.php?userId=".$row["postId"]."\">View the author profile</a>";
+                echo "<p><a href=\"/profile/addTag.php?\postId=".$row["postId"]."\">Add to favorite</a></p>";
                 echo "</li>";
             }
         } else {
@@ -65,7 +65,7 @@ include ('header.php');
                 echo "<li class=\"list-group-item\">
                         <h3>".$row["title"]."</h3>
                         <p>".$row["postDate"]."</p>
-                        <p>".$row["Content"]."</p>";
+                        <p>".$row["content"]."</p>";
                 echo "</li>";
             }
         } else {

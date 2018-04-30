@@ -34,7 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 function signIn($loginUserName, $loginPW, $dbc) {
-
+    //encrypt
+    $loginPW = $loginPW."m";
     $sql = "SELECT userId FROM users WHERE username='$loginUserName' AND password='$loginPW'";
 
     $result = @mysqli_query($dbc, $sql);
@@ -43,6 +44,7 @@ function signIn($loginUserName, $loginPW, $dbc) {
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         session_start();
         $_SESSION['login_user'] = $row['userId'];
+        $_SESSION['login_userName'] = $loginUserName;
         $page = '../profile/profile.php';
         $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
         $url = rtrim($url, '/\\');

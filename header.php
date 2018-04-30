@@ -15,12 +15,12 @@ session_start();
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.php">Eveyday Cooking</a>
+            <a class="navbar-brand" href="/index.php">Eveyday Cooking</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/index.php">Home</a></li>
+            <li class="active"><a href="/index.php">HOME</a></li>
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Category
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">CATEGORY
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="/ImmediateImmersion/breakfast.php">Breakfast</a></li>
@@ -35,11 +35,11 @@ session_start();
             echo "enter the navi php";
             echo $_SESSION['login_user'];
             if(empty($_SESSION['login_user'])) {
-                echo "<li><a href='/SignInUpOut/signIn.html'>Sign In</a>";
-                echo "</li><li><a href='/SignInUpOut/signUp.html'>Sign Up</a></li>";
+                echo "<li><a href='/SignInUpOut/signIn.html'>SIGN IN</a>";
+                echo "</li><li><a href='/SignInUpOut/signUp.html'>SIGN UP</a></li>";
             } else {
                 //payground is used to generate recommendation
-                echo "<li><a href='playground.php'>PLAYGROUND</a></li>";
+                echo "<li><a href='/playground.php'>PLAYGROUND</a></li>";
                 echo "<li><a href='/profile/profile.php'>DASHBOARD</a></li>";
                 echo "<li><a href='/SignInUpOut/SignOut.php'>SIGN OUT</a></li>";
             }
@@ -47,7 +47,7 @@ session_start();
 <!--            <li><a href="#">Sign up</a></li>-->
 
             <li>
-                <form class="form-inline my-2 my-lg-0" method="post" action="search/searchScript.php">
+                <form class="form-inline my-2 my-lg-0" method="post" action="/search/searchPage.php">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="searchContent">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>

@@ -7,11 +7,12 @@
  */
 session_start();
 echo "enter the general recommendation";
-require('../script/db/db_connect.php');
+require(dirname(__FILE__).'/../script/db/db_connect.php');
 if(!isset($_SESSION['login_user'])) {
     echo "cannot find user";
     exit;
 }
+echo "find the user";
 $postUser = $_SESSION['login_user'];
 //            $tag=$_GET["tag"];
 //            $sql = "select * from posts right join (select follow.userId2 from follow where userId1 = ".$postUser .") on posts.userId = follow.userId2 order by posts.votes";
@@ -27,6 +28,7 @@ if (mysqli_num_rows($result) >= 1) {
     while($row = mysqli_fetch_assoc($result)) {
 //            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
         if($row["userId"] == $postUser) {
+            echo "skip the post";
             continue;
         }
         echo "<li class=\"list-group-item\">
@@ -34,19 +36,22 @@ if (mysqli_num_rows($result) >= 1) {
                        <p>".$row["postDate"]."</p>
                        <p>".$row["content"]."</p>";
         $vote = $row["votes"];
-        echo "<button id=\"btnfun\" name=\"btnfun\" onClick='location.href=\"?button".$row["postId"]."=1\"'>Vote</button>";
-        if($_GET['button'.$row["postId"]]) {
-            updateVote($dbc, $row["postId"], $vote);
-        }
+        echo "<button id=\"btnfun\" name=\"btnfun\" onClick='location.href=\"?button_vote".$row["postId"]."=1\"'>Vote</button>";
+//        if($_GET['button'.$row["postId"]]) {
+//            updateVote($dbc, $row["postId"], $vote);
+//        }
 //        $user2Id = getUserId($dbc, $row["postId"]);
         $user2Id = $row["userId"];
         follow($dbc,$row["postId"],$postUser,$user2Id);
-        echo "<a href=\"otherUserProfile.php?userId=".$row["postId"]."\">View the author profile</a>";
-        echo "<p><a href=\"addTag.php?\postId=".$row["postId"]."\">Add to favorite</p>";
+        echo "<a href=\"/profile/otherUserProfile.php?userId=".$row["userId"]."\">View the author profile</a>";
+        echo "<p><a href=\"/profile/addTag.php?\postId=".$row["postId"]."\">Add to favorite</a></p>";
         echo "</li>";
     }
 } else {
     echo "<p>Nothing inside</p>";
+}
+if($_GET['button'.$row["postId"]]) {
+    updateVote($dbc, $row["postId"], $vote);
 }
 mysqli_close($dbc);
 
@@ -67,7 +72,8 @@ mysqli_close($dbc);
 
 function updateVote($dbc, $postId, $vote) {
     $vote = $vote + 1;
-    $sql2 = "update posts set votes = ".$vote . " where postId = " . $postId;
+//    $sql2 = "update posts set votes = ".$vote . " where postId = " . $postId;
+    $sql2 = "update posts set votes = ".$vote." where postId = \" ".$postId ."\"";
     $result2 = @mysqli_query($dbc, $sql2);
     if(!$result2) {
         echo "error in query2_vote";
@@ -75,6 +81,11 @@ function updateVote($dbc, $postId, $vote) {
         echo $postErr;
         exit();
     }
+    $page = '/profile/recommendation.php';
+    $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+    $url = rtrim($url, '/\\');
+    $url .= '/' . $page;
+    header("Location: $url");
 }
 
 function follow($dbc, $postId, $postUser, $user2Id){
@@ -98,6 +109,11 @@ function follow($dbc, $postId, $postUser, $user2Id){
                 echo $postErr;
                 exit();
             }
+            $page = '/profile/recommendation.php';
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+            $url = rtrim($url, '/\\');
+            $url .= '/' . $page;
+            header("Location: $url");
         }
 
     }

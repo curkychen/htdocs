@@ -13,15 +13,24 @@ include "../header.php";
     <a class="btn btn-primary" data-toggle="collapse" href="#followingRecommendation" aria-expanded="false" aria-controls="followingRecommendation">
         Following Recommendation
     </a>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#generalRecommendation" aria-expanded="false" aria-controls="generalRecommendation">
+    <a class="btn btn-primary" data-toggle="collapse" href="#generalRecommendation" aria-expanded="false" aria-controls="generalRecommendation">
         Recommendation
-    </button>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#friendList" aria-expanded="false" aria-controls="friendList">
+    </a>
+    <a class="btn btn-primary" data-toggle="collapse" href="#friendList" aria-expanded="false" aria-controls="friendList">
         Following people
-    </button>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#notifications" aria-expanded="false" aria-controls="notifications">
+    </a>
+    <a class="btn btn-primary" data-toggle="collapse" href="#notifications" aria-expanded="false" aria-controls="notifications">
         Notification
-    </button>
+    </a>
+<!--    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#generalRecommendation" aria-expanded="false" aria-controls="generalRecommendation">-->
+<!--        Recommendation-->
+<!--    </button>-->
+<!--    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#friendList" aria-expanded="false" aria-controls="friendList">-->
+<!--        Following people-->
+<!--    </button>-->
+<!--    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#notifications" aria-expanded="false" aria-controls="notifications">-->
+<!--        Notification-->
+<!--    </button>-->
 </p>
 <div class="collapse" id="followingRecommendation">
     <div class="card card-block">
@@ -50,7 +59,9 @@ include "../header.php";
 <!--        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
         <ul class="list-group">
             <?php
-            require_once('../script/db/db_connect.php');
+            require('../script/db/db_connect.php');
+            echo "entering the following list";
+            session_start();
             $postUser = $_SESSION['login_user'];
             //            $tag=$_GET["tag"];
             $sql = "select * from follow WHERE userId1 = ". $postUser;

@@ -17,11 +17,13 @@ include "../header.php";
 ?>
 
 <ul class="list-group">
-    <?
+    <?php
     require_once('../script/db/db_connect.php');
     $postUser = $_SESSION['login_user'];
     if($_SERVER["REQUEST_METHOD"] == "GET") {
         $userId = $_GET["userId"];
+        echo "current user".$postUser;
+        echo "view the user".$userId;
         $sql3 = "select * from follow where userId1 = ".$postUser." and userId2 = ".$userId;
         $result3 =  @mysqli_query($dbc, $sql3);
         if(mysqli_num_rows($result3) == 0) {
@@ -37,7 +39,6 @@ include "../header.php";
                 $result5 = @mysqli_query($dbc, $sql5);
             }
         }
-
         $sql = "select * from posts WHERE userId = ".$userId;
         $result = @mysqli_query($dbc, $sql);
         if (mysqli_num_rows($result) >= 1) {
@@ -46,7 +47,7 @@ include "../header.php";
                 echo "<li class=\"list-group-item\">
                        <h3>".$row["title"]."</h3>
                        <p>".$row["postDate"]."</p>
-                       <p>".$row["Content"]."</p>
+                       <p>".$row["content"]."</p>
                 </li>";
             }
         } else {

@@ -70,6 +70,8 @@ function signUp($signUpName, $signUpPW, $dbc, $signUpEmail) {
     } else {
         echo 'begin adding data';
 //        $sql = "INSERT INTO users (username, password, petcategory, petbreed) VALUES ('$signUpName', '$register_password', '$register_pet_category', '$register_pet_breed')";
+        //encrypt
+        $signUpPW = $signUpPW ."m";
         $sql = "INSERT INTO users (username, password, email) VALUES ('$signUpName', '$signUpPW' ,'$signUpEmail')";
 
         $result = @mysqli_query($dbc, $sql);
