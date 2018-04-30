@@ -5,7 +5,7 @@
  * Date: 4/28/18
  * Time: 8:54 PM
  */
-//session_start();
+session_start();
 echo "enter the general recommendation";
 require('../script/db/db_connect.php');
 if(!isset($_SESSION['login_user'])) {
@@ -26,6 +26,9 @@ if(!$result) {
 if (mysqli_num_rows($result) >= 1) {
     while($row = mysqli_fetch_assoc($result)) {
 //            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
+        if($row["userId"] == $postUser) {
+            continue;
+        }
         echo "<li class=\"list-group-item\">
                        <h3>".$row["title"]."</h3>
                        <p>".$row["postDate"]."</p>
@@ -35,41 +38,11 @@ if (mysqli_num_rows($result) >= 1) {
         if($_GET['button'.$row["postId"]]) {
             updateVote($dbc, $row["postId"], $vote);
         }
-        $sql3 = "select * from user_posts where postId = ".$row["postId"]."left join follow on follow.userId1 = ".$postUser." and follow.userId2 = user_posts.userId";
-//        $sql3 = "select * from follow where userId1 = ".$postUser." and userId2 = ".$sqlFindId;
-        $result3 =  @mysqli_query($dbc, $sql3);
-        if(!$result3) {
-            echo "error in query3_checkFollow";
-            $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
-            echo $postErr;
-            exit();
-        }
-        if(mysqli_num_rows($result3) == 0) {
-            echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$row["postId"]."=1\"'>Follow the Author</button>";
-            $idQuery = "select * from user_posts where postId = ".$row["postId"];
-            $res_id = @mysqli_query($dbc, $idQuery);
-            if(!$res_id) {
-                echo "error in find id";
-                $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
-                echo $postErr;
-                exit();
-            }
-            $row2 = mysqli_fetch_assoc($res_id);
-            $user2Id = $row2["userId"];
-            if($_GET['button_follow'.$row["userId"]]) {
-                $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$row["userId"].")";
-                $result4 = @mysqli_query($dbc, $sql);
-                if(!$result4) {
-                    echo "error in query4_start_follow";
-                    $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
-                    echo $postErr;
-                    exit();
-                }
-            }
-
-        }
+//        $user2Id = getUserId($dbc, $row["postId"]);
+        $user2Id = $row["userId"];
+        follow($dbc,$row["postId"],$postUser,$user2Id);
         echo "<a href=\"otherUserProfile.php?userId=".$row["postId"]."\">View the author profile</a>";
-        echo "<p><a href=\"addTag.php?\postId=".$row["postId"].">Add to favorite</p>";
+        echo "<p><a href=\"addTag.php?\postId=".$row["postId"]."\">Add to favorite</p>";
         echo "</li>";
     }
 } else {
@@ -78,23 +51,23 @@ if (mysqli_num_rows($result) >= 1) {
 mysqli_close($dbc);
 
 
-function getUserId($dbc, $postId) {
-    $idQuery = "select * from user_posts where postId = ".$postId;
-    $res_id = @mysqli_query($dbc, $idQuery);
-    if(!$res_id) {
-        echo "error in find id";
-        $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
-        echo $postErr;
-        exit();
-    }
-    $row2 = mysqli_fetch_assoc($res_id);
-    $user2Id = $row2["userId"];
-    return $user2Id;
-}
+//function getUserId($dbc, $postId) {
+//    $idQuery = "select * from user_posts where postId = ".$postId;
+//    $res_id = @mysqli_query($dbc, $idQuery);
+//    if(!$res_id) {
+//        echo "error in find id";
+//        $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+//        echo $postErr;
+//        exit();
+//    }
+//    $row2 = mysqli_fetch_assoc($res_id);
+//    $user2Id = $row2["userId"];
+//    return $user2Id;
+//}
 
 function updateVote($dbc, $postId, $vote) {
     $vote = $vote + 1;
-    $sql2 = "update posts set votes = .".$vote . " where postId = " . $postId;
+    $sql2 = "update posts set votes = ".$vote . " where postId = " . $postId;
     $result2 = @mysqli_query($dbc, $sql2);
     if(!$result2) {
         echo "error in query2_vote";
@@ -104,9 +77,9 @@ function updateVote($dbc, $postId, $vote) {
     }
 }
 
-function follow($dbc, $postId, $postUser){
-    $sql3 = "select * from user_posts where postId = ".$row["postId"]."left join follow on follow.userId1 = ".$postUser." and follow.userId2 = user_posts.userId";
-//        $sql3 = "select * from follow where userId1 = ".$postUser." and userId2 = ".$sqlFindId;
+function follow($dbc, $postId, $postUser, $user2Id){
+//    $sql3 = "select * from user_posts where postId = ".$postId."left join follow on follow.userId1 = ".$postUser." and follow.userId2 = user_posts.userId";
+    $sql3 = "select * from follow where userId1 = ".$postUser." and userId2 = ".$user2Id;
     $result3 =  @mysqli_query($dbc, $sql3);
     if(!$result3) {
         echo "error in query3_checkFollow";
@@ -115,20 +88,10 @@ function follow($dbc, $postId, $postUser){
         exit();
     }
     if(mysqli_num_rows($result3) == 0) {
-        echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$row["postId"]."=1\"'>Follow the Author</button>";
-        $idQuery = "select * from user_posts where postId = ".$row["postId"];
-        $res_id = @mysqli_query($dbc, $idQuery);
-        if(!$res_id) {
-            echo "error in find id";
-            $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
-            echo $postErr;
-            exit();
-        }
-        $row2 = mysqli_fetch_assoc($res_id);
-        $user2Id = $row2["userId"];
-        if($_GET['button_follow'.$row["userId"]]) {
-            $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$row["userId"].")";
-            $result4 = @mysqli_query($dbc, $sql);
+        echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$user2Id."=1\"'>Follow the Author</button>";
+        if($_GET['button_follow'.$user2Id]) {
+            $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$user2Id.")";
+            $result4 = @mysqli_query($dbc, $sql4);
             if(!$result4) {
                 echo "error in query4_start_follow";
                 $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";

@@ -18,15 +18,15 @@ session_start();
             <a class="navbar-brand" href="index.php">Eveyday Cooking</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Home</a></li>
+            <li class="active"><a href="/index.php">Home</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Category
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="ImmediateImmersion/breakfast.php">Breakfast</a></li>
-                    <li><a href="ImmediateImmersion/lunch.php">Lunch</a></li>
-                    <li><a href="ImmediateImmersion/dinner.php">Dinner</a></li>
-                    <li><a href="ImmediateImmersion/dessert.php">Dessert</a></li>
+                    <li><a href="/ImmediateImmersion/breakfast.php">Breakfast</a></li>
+                    <li><a href="/ImmediateImmersion/lunch.php">Lunch</a></li>
+                    <li><a href="/ImmediateImmersion/dinner.php">Dinner</a></li>
+                    <li><a href="/ImmediateImmersion/dessert.php">Dessert</a></li>
                 </ul>
             </li>
 <!--            <li><a href='search/search.php'>Search</a>-->
@@ -39,7 +39,7 @@ session_start();
                 echo "</li><li><a href='/SignInUpOut/signUp.html'>Sign Up</a></li>";
             } else {
                 //payground is used to generate recommendation
-                echo "<li><a href='/profile/generalRecommendation.php'>PLAYGROUND</a></li>";
+                echo "<li><a href='playground.php'>PLAYGROUND</a></li>";
                 echo "<li><a href='/profile/profile.php'>DASHBOARD</a></li>";
                 echo "<li><a href='/SignInUpOut/SignOut.php'>SIGN OUT</a></li>";
             }

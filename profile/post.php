@@ -49,10 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require('../script/db/db_connect.php');
 //            $post_user = $_SESSION['login_user'];
             $date = date("Y-m-d h:i:sa");
-            $post_id = $date . $post_user;
-
-            $sql = "INSERT INTO posts (postId, postDate, title, content, tag, category, Votes) 
-                VALUES ('$post_id','$date', '$post_title', '$post_content', '$post_tag','$post_category',0)";
+            //$post_id = $date . $post_user;
+            $post_id = uniqid();
+            $sql = "INSERT INTO posts (postId, postDate, title, content, tag, category, Votes, userId) 
+                VALUES ('$post_id','$date', '$post_title', '$post_content', '$post_tag','$post_category',0, '$post_user')";
             $result = @mysqli_query($dbc, $sql);
             if(!$result) {
                 echo "Do not post into posts correctly";
