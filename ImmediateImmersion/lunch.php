@@ -19,10 +19,10 @@ if (mysqli_num_rows($result) >= 1) {
         echo "<li class=\"list-group-item\">
                        <h3>".$row["title"]."</h3>
                        <p>".$row["postDate"]."</p>
-                       <p>".$row["Content"]."</p>";
+                       <p>".$row["content"]."</p>";
         $vote = $row["votes"];
-        echo "<a href=\"otherUserProfile.php?userId=".$row["postId"]."\">View the author profile</a>";
-        echo "<p><a href=\"addTag.php?\postId=".$row["postId"].">Add to favorite</p>";
+        echo "<a href=\"/profile/otherUserProfile.php?userId=".$row["postId"]."\">View the author profile</a>";
+        echo "<p><a href=\"/profile/addTag.php?\postId=".$row["postId"]."\">Add to favorite</a></p>";
         echo "</li>";
     }
 } else {

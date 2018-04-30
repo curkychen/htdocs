@@ -40,12 +40,19 @@ session_start();
 <!--                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>-->
                 <?php
                 require_once('../script/db/db_connect.php');
-                $postuser = $_SESSION['login_user'];
-                $sql = "select DISTINCT tag from favorite left join tags on favorite.postId = tags.postId where favorite.userId = '$postuser'";
+                $postUser = $_SESSION['login_user'];
+//                $sql = "select DISTINCT tag from favorite left join tags on favorite.postId = tags.postId where favorite.userId = '$postUser'";
+                $sql = "select distinct folderName from favorite where userId = '$postUser'";
                 $result = @mysqli_query($dbc, $sql);
+                if(!$result) {
+                    echo "error when retireve the fav list";
+                    $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+                    echo $postErr;
+                    exit();
+                }
                 if (mysqli_num_rows($result) >= 1) {
                     while($row = mysqli_fetch_assoc($result)) {
-                        echo "<p><a class=\"btn btn-secondary\" href=\"favorite.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
+                        echo "<p><a class=\"btn btn-secondary\" href=\"favorite.php?folderName=".$row["folderName"]."\" role=\"button\">".$row["folderName"]."</a></p>";
                     }
                 } else {
                     echo "<p>Do not create any favorite tag yet</p>";

@@ -35,6 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     </form>";
     }
 }
+
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $tag = "";
     $folderName = "";
@@ -50,14 +51,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<h>".$postUser."     </h>";
     echo "<h>".$folderName."     </h>";
     $postId = str_replace(' ', '', $postId);
-//    $sql1 = "select * from tags WHERE postId = \"".$postId ."\"and tag=\"".$tag."\"";
-//    $result1 = @mysqli_query($dbc, $sql1);
-//    if(!$result1) {
-//        echo "select tags error";
-//        echo '<h1>' . mysqli_error($dbc) . '</h1>';
-//        exit();
-//    }
-//    $sql_insert_folder = "insert into favorite (userId, postId, folderName) VALUES (".$postUser.",'$postId','$folderName')";
     $sql_insert_folder = "insert into favorite(userId,postId,folderName) VALUES ($postUser,'$postId','$folderName')";
     $result_insert_folder = @mysqli_query($dbc, $sql_insert_folder);
     if(!$result_insert_folder) {
@@ -65,23 +58,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         echo '<h1>' . mysqli_error($dbc) . '</h1>';
         exit();
     }
-//    if (mysqli_num_rows($result1) == 0) {
         $sql_insert_tag = "insert into tags(postId,tag) VALUES ('$postId','$tag')";
-//        $sql_insert_folder = "insert into favorite (userId, postId, folderName) VALUES (".$postUser.",".$postId.",".$folderName.")";
         $result_insert_tag = @mysqli_query($dbc, $sql_insert_tag);
         if(!$result_insert_tag) {
             echo "error in insert tags";
             echo '<h1>' . mysqli_error($dbc) . '</h1>';
             exit();
         }
-//        $result_insert_folder = @mysqli_query($dbc, $sql_insert_folder);
-//        if(!$result_insert_folder) {
-//            echo '<h1>' . mysqli_error($dbc) . '</h1>';
-//            exit();
-//        }
         redirect();
-//    }
-
 }
 
 function redirect(){

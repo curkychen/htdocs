@@ -12,24 +12,38 @@ include "../header.php";
 
 
 <ul class="list-group">
-    <?
-    require_once('../script/db/db_connect.php');
-    $postuser = $_SESSION['login_user'];
-    $tag=$_GET["tag"];
-    $sql = "select * from posts right join (select * from favorite where userId = ".$postuser." and folderName = ".$tag.") on posts.userId = favorite.postId";
-    $result = @mysqli_query($dbc, $sql);
-    if (mysqli_num_rows($result) >= 1) {
-        while($row = mysqli_fetch_assoc($result)) {
-//            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
-            echo "<li class=\"list-group-item\">Cras justo odio
-                       <h3>".$row["title"]."</h3>
-                       <p>".$row["postDate"]."</p>
-                       <p>".$row["Content"]."</p>
-                </li>";
+    <?php
+    if($_SERVER["REQUEST_METHOD"] == "GET") {
+        require('../script/db/db_connect.php');
+        $postUser = $_SESSION['login_user'];
+        $folderName = "";
+        if(isset($_GET["folderName"])) {
+            echo "get folderName";
+            $folderName = $_GET["folderName"];
+        } else {
+            echo "Do not get folderName";
         }
-    } else {
-        echo "<p>Nothing inside</p>";
+        $sql = "select * from posts right join (select DISTINCT * from favorite where userId ='$postUser' and folderName ='$folderName') as favPosts on posts.postId = favPosts.postId";
+        $result = @mysqli_query($dbc, $sql);
+        if(!$result) {
+            echo "error in retrieve the favriate message";
+            $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+            echo $postErr;
+            exit();
+        }
+        if (mysqli_num_rows($result) >= 1) {
+            while ($row = mysqli_fetch_assoc($result)) {
+//            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
+                echo "<li class=\"list-group-item\">
+                       <h3>" . $row["title"] . "</h3>
+                       <p>" . $row["postDate"] . "</p>
+                       <p>" . $row["content"] . "</p>
+                </li>";
+            }
+        } else {
+            echo "<p>Nothing inside</p>";
+        }
+        mysqli_close($dbc);
     }
-    mysqli_close($dbc);
     ?>
 </ul>
