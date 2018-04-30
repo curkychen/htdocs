@@ -36,22 +36,32 @@ if (mysqli_num_rows($result) >= 1) {
                        <p>".$row["postDate"]."</p>
                        <p>".$row["content"]."</p>";
         $vote = $row["votes"];
-        echo "<button id=\"btnfun\" name=\"btnfun\" onClick='location.href=\"?button_vote".$row["postId"]."=1\"'>Vote</button>";
+//        echo "<button id=\"btnfun\" name=\"btnfun\" onClick='\"/profile/generalRecommendation.php\"?button_vote=".$row["postId"]."&vote=".$vote."\"'>Vote</button>";
+        echo "<p><a href='/profile/generalRecommendation.php?button_vote=".$row["postId"]."&vote=".$vote."\'>Vote</a></p>";
 //        if($_GET['button'.$row["postId"]]) {
 //            updateVote($dbc, $row["postId"], $vote);
 //        }
 //        $user2Id = getUserId($dbc, $row["postId"]);
         $user2Id = $row["userId"];
         follow($dbc,$row["postId"],$postUser,$user2Id);
-        echo "<a href=\"/profile/otherUserProfile.php?userId=".$row["userId"]."\">View the author profile</a>";
+        echo "<p><a href=\"/profile/otherUserProfile.php?userId=".$row["userId"]."\">View the author profile</a></p>";
         echo "<p><a href=\"/profile/addTag.php?\postId=".$row["postId"]."\">Add to favorite</a></p>";
         echo "</li>";
     }
 } else {
     echo "<p>Nothing inside</p>";
 }
-if($_GET['button'.$row["postId"]]) {
-    updateVote($dbc, $row["postId"], $vote);
+if($_SERVER["REQUEST_METHOD"] == "GET") {
+    echo "detect get";
+    if(isset($_GET["vote"])) {
+        $vote = $_GET["vote"];
+        $postId = $_GET["button_vote"];
+        updateVote($dbc, $postId, $vote);
+    }
+    if(isset($_GET["button_follow"])) {
+        $user2Id = $_GET["button_follow"];
+        followPeople($dbc,$postUser, $user2Id);
+    }
 }
 mysqli_close($dbc);
 
@@ -73,7 +83,9 @@ mysqli_close($dbc);
 function updateVote($dbc, $postId, $vote) {
     $vote = $vote + 1;
 //    $sql2 = "update posts set votes = ".$vote . " where postId = " . $postId;
-    $sql2 = "update posts set votes = ".$vote." where postId = \" ".$postId ."\"";
+    echo $vote;
+    echo $postId;
+    $sql2 = "update posts set votes = ".$vote." where postId = \"".$postId."\"";
     $result2 = @mysqli_query($dbc, $sql2);
     if(!$result2) {
         echo "error in query2_vote";
@@ -81,7 +93,7 @@ function updateVote($dbc, $postId, $vote) {
         echo $postErr;
         exit();
     }
-    $page = '/profile/recommendation.php';
+    $page = 'recommendation.php';
     $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
     $url = rtrim($url, '/\\');
     $url .= '/' . $page;
@@ -99,22 +111,23 @@ function follow($dbc, $postId, $postUser, $user2Id){
         exit();
     }
     if(mysqli_num_rows($result3) == 0) {
-        echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$user2Id."=1\"'>Follow the Author</button>";
-        if($_GET['button_follow'.$user2Id]) {
-            $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$user2Id.")";
-            $result4 = @mysqli_query($dbc, $sql4);
-            if(!$result4) {
-                echo "error in query4_start_follow";
-                $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
-                echo $postErr;
-                exit();
-            }
-            $page = '/profile/recommendation.php';
-            $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
-            $url = rtrim($url, '/\\');
-            $url .= '/' . $page;
-            header("Location: $url");
-        }
-
+//        echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$user2Id."=1\"'>Follow the Author</button>";
+        echo "<p><a href='/profile/generalRecommendation.php?button_follow=".$user2Id."'></a></p>";
     }
+}
+
+function followPeople($dbc, $postUser, $user2Id) {
+    $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$user2Id.")";
+    $result4 = @mysqli_query($dbc, $sql4);
+    if(!$result4) {
+        echo "error in query4_start_follow";
+        $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+        echo $postErr;
+        exit();
+    }
+    $page = '/profile/recommendation.php';
+    $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+    $url = rtrim($url, '/\\');
+    $url .= '/' . $page;
+    header("Location: $url");
 }
