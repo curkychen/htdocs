@@ -9,7 +9,6 @@ session_start();
 
 include "../header.php";
 ?>
-<script src="profile.js"></script>
 <p>
     <a class="btn btn-primary" data-toggle="collapse" href="#followingRecommendation" aria-expanded="false" aria-controls="followingRecommendation">
         Following Recommendation
@@ -28,7 +27,8 @@ include "../header.php";
     <div class="card card-block">
 <!--        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
         <ul class="list-group">
-            <?
+            <?php
+            echo "before entering the following recommendation";
             include "followingRecommendation.php";
             ?>
         </ul>
@@ -38,7 +38,8 @@ include "../header.php";
     <div class="card card-block">
 <!--        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
         <ul class="list-group">
-            <?
+            <?php
+            echo "before entering the general recommendation";
             include "generalRecommendation.php";
             ?>
         </ul>
@@ -48,12 +49,18 @@ include "../header.php";
     <div class="card card-block">
 <!--        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
         <ul class="list-group">
-            <?
+            <?php
             require_once('../script/db/db_connect.php');
             $postUser = $_SESSION['login_user'];
             //            $tag=$_GET["tag"];
             $sql = "select * from follow WHERE userId1 = ". $postUser;
             $result = @mysqli_query($dbc, $sql);
+            if(!$result) {
+                echo "error in query3_checkFollow";
+                $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+                echo $postErr;
+                exit();
+            }
             if (mysqli_num_rows($result) >= 1) {
                 while($row = mysqli_fetch_assoc($result)) {
 //            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
@@ -63,7 +70,7 @@ include "../header.php";
                           </li>";
                 }
             } else {
-                echo "<p>Nothing inside</p>";
+                echo "<p>Not following any user yet</p>";
             }
             mysqli_close($dbc);
             ?>

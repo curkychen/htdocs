@@ -33,7 +33,7 @@ include ('header.php');
                 echo "<li class=\"list-group-item\">
         <h3>".$row["title"]."</h3>
         <p>".$row["postDate"]."</p>
-        <p>".$row["Content"]."</p>";
+        <p>".$row["content"]."</p>";
                 $vote = $row["votes"];
                 echo "<button id=\"btnfun\" name=\"btnfun\" onClick='location.href=\"?button".$row["postId"]."=1\"'>Vote</button>";
                 if($_GET['button'.$row["postId"]]) {
