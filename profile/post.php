@@ -50,13 +50,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //            $post_user = $_SESSION['login_user'];
             $date = date("Y-m-d h:i:sa");
             $post_id = $date . $post_user;
-            $sql = "INSERT INTO posts (postId, postDate, title, content, category) 
-                VALUES ('$post_id','$date', '$post_title', '$post_content', '$post_category')";
+            $sql = "INSERT INTO posts (postId, postDate, title, content, tag, category, Votes) 
+                VALUES ('$post_id','$date', '$post_title', '$post_content', '$post_tag','$post_category',0)";
+            $result = @mysqli_query($dbc, $sql);
+            if(!$result) {
+                echo "Do not post into posts correctly";
+                $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+                exit();
+            }
             //tag does not really mean favorite
             $sql2 = "INSERT INTO tags (postId, tag) 
                 VALUES ('$post_id','$post_tag')";
             $result2 = @mysqli_query($dbc, $sql2);
-            if ($result && $result2) {
+            if(!$result2) {
+                echo "Do not post into tags correctly";
+                $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+                exit();
+            }
+            $sql3 = "insert into user_posts (postId, userId) values ('$post_id','$post_user')";
+            $result3 = @mysqli_query($dbc, $sql3);
+            if(!$result3) {
+                echo "Do not post into user_posts correctly";
+                $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+                exit();
+            }
+            $page = 'profile.php';
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+            $url = rtrim($url, '/\\');
+            $url .= '/' . $page;
+            header("Location: $url");
+            if ($result && $result2 ) {
                 $page = 'profile.php';
                 $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
                 $url = rtrim($url, '/\\');
