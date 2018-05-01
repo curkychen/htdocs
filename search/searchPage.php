@@ -20,10 +20,10 @@
 		  <form action="searchPage.php" method="post">
 		    <div class="input-group">
                 <input type="hidden" name="search_post" value="true">
-                <input type="checkbox" name="Breakfast" value="Breakfast" checked="checked" /> Breakfast
-                <input type="checkbox" name="Lunch" value="Lunch" checked="checked" /> Lunch
-                <input type="checkbox" name="Dinner" value="Dinner" checked="checked" /> Dinner
-                <input type="checkbox" name="Dessert" value="Dessert" checked="checked" /> Dessert
+<!--                <input type="checkbox" name="Breakfast" value="Breakfast" checked="checked" /> Breakfast-->
+<!--                <input type="checkbox" name="Lunch" value="Lunch" checked="checked" /> Lunch-->
+<!--                <input type="checkbox" name="Dinner" value="Dinner" checked="checked" /> Dinner-->
+<!--                <input type="checkbox" name="Dessert" value="Dessert" checked="checked" /> Dessert-->
                 <input type="text" class="form-control" name="search_string" size="50" placeholder="What do you want to know?" required>
 		      <div class="input-group-btn">
 		        <input type="submit" class="btn btn-danger" value="Search">
@@ -43,32 +43,33 @@
         $breakfast = false;
         $dinner = false;
         $dessert = false;
-        if($_POST["Lunch"]) {
-            $lunch = true;
-        }
-        if($_POST["Dinner"]) {
-            $dinner = true;
-        }
-        if($_POST["Dessert"]) {
-            $dessert = true;
-        }
-        if($_POST["Breakfast"]) {
-            $breakfast = true;
-        }
+//        if($_POST["Lunch"]) {
+//            $lunch = true;
+//        }
+//        if($_POST["Dinner"]) {
+//            $dinner = true;
+//        }
+//        if($_POST["Dessert"]) {
+//            $dessert = true;
+//        }
+//        if($_POST["Breakfast"]) {
+//            $breakfast = true;
+//        }
         $searchEngine = new SearchEngineForCook();
-        $uncommon_words = $searchEngine->searchByQuery($search);
-        $uncommonlength = count($uncommon_words);
-        $querypre = "title LIKE '%$uncommon_words[0]%'";
-        $querypre = $querypre." OR Content LIKE '%$uncommon_words[0]%'";
-        $querypre = $querypre." OR tag LIKE '%$uncommon_words[0]%'";
-        $querypre = $querypre." OR Category LIKE '%$uncommon_words[0]%'";
-        for($y = 1; $y < $uncommonlength; $y++) {
-            $querypre = $querypre . " OR title LIKE '%$uncommon_words[$y]%'";
-            $querypre = $querypre . " OR Content LIKE '%$uncommon_words[$y]%'";
-            $querypre = $querypre . " OR tag LIKE '%$uncommon_words[$y]%'";
-            $querypre = $querypre . " OR Category LIKE '%$uncommon_words[$y]%'";
+        $query = $searchEngine->searchByQuery($search);
+        $querySize = count($query);
+        $searchQuery = "title LIKE '%$query[0]%'";
+        $searchQuery = $searchQuery." OR Content LIKE '%$query[0]%'";
+        $searchQuery = $searchQuery." OR tag LIKE '%$query[0]%'";
+        $searchQuery = $searchQuery." OR Category LIKE '%$query[0]%'";
+        for($y = 1; $y < $querySize; $y++) {
+            $searchQuery = $searchQuery . " OR title LIKE '%$query[$y]%'";
+            $searchQuery = $searchQuery . " OR Content LIKE '%$query[$y]%'";
+            $searchQuery = $searchQuery . " OR tag LIKE '%$query[$y]%'";
+            $searchQuery = $searchQuery . " OR Category LIKE '%$query[$y]%'";
         }
-        $sql = "select * from posts where ".$querypre." order by votes desc";
+        $searchResult = $searchEngine->generateSearchResult($searchQuery, $dbc,$potentialTag);
+        $sql = "select * from posts where ".$searchQuery." order by votes desc";
         $result = @mysqli_query($dbc, $sql);
         if (mysqli_num_rows($result) >= 1) {
             while($row = mysqli_fetch_assoc($result)) {

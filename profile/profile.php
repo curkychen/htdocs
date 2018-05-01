@@ -69,16 +69,3 @@ session_start();
 
 </main>
 
-
-
-<!--<form action="homepage.php">-->
-<!--    <input type="hidden" name="like_id" value="$row['id']">-->
-<!--    <input type="hidden" name="like_postuser" value="$row['postuser']">-->
-<!--    <input type="hidden" name="like_brandname" value="$row['brandname']">-->
-<!--    <input type="hidden" name="like_price" value="$row['price']">-->
-<!--    <input type="hidden" name="like_rating" value="$row['rating']">-->
-<!--    <input type="hidden" name="like_petcategory" value="$row['petcategory']">-->
-<!--    <input type="hidden" name="like_petbreed" value="$row['petbreed']">-->
-<!--    <input type="hidden" name="like_comment" value="$row['comment']">-->
-<!--    <input type="submit" name="like_submit" value="Like">-->
-<!--</form>-->
