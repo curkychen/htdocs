@@ -14,6 +14,7 @@ class SearchEngineForCook implements  searchEngine{
 
     public function searchByQuery($query)
     {
+        echo "<h1>enter the search query method</h1>";
         $common_words = array("what", "where","are","is", "who", "and", "or", "any", "some", "similar", "to", "at", "a");
         $words = preg_split('/\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
         $size = count($words);
