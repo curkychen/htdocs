@@ -11,7 +11,7 @@ $postUser = $_SESSION['login_user'];
 //            $tag=$_GET["tag"];
 //$sql = "select * from (select userId2 from follow where userId1 = '$postUser') as userId left join user_posts on userId.userId2 = user_posts.userId left JOIN posts on user_posts.postId = posts.postId ";
 //$sql = "select * from posts right join (select follow.userId2 from follow where userId1 = ".$postUser .") as followUsers on posts.userId = followUsers.userId2 order by posts.votes desc";
-$sql = "select * from (select * from Recommendation where userId = $postUser) as recommend left join posts on recommend.postId = posts.postId";
+$sql = "select DISTINCT * from (select * from Recommendation where userId = $postUser) as recommend left join posts on recommend.postId = posts.postId";
 $result = @mysqli_query($dbc, $sql);
 if(!$result) {
     echo "error in query";
@@ -33,7 +33,7 @@ if (mysqli_num_rows($result) >= 1) {
             $sql2 = "update posts set votes = ".$vote." where postId = \" ".$row["postId"] ."\"";
             $result2 = @mysqli_query($dbc, $sql);
         }
-        echo "<p><a href=\"addTag.php?\postId=".$row["postId"]."\">Add to favorite</a></p>";
+        echo "<p><a href=\"/profile/addTag.php?postId=".$row["postId"]."\">Add to favorite</a></p>";
         echo "</li>";
     }
 } else {

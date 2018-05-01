@@ -15,7 +15,6 @@ if(!$clearTable_res) {
     exit();
 }
 
-
 $sql_user = "select * from users";
 $result = @mysqli_query($dbc, $sql_user);
 if(!$result) {
@@ -69,7 +68,6 @@ if (mysqli_num_rows($result) >= 1) {
                         }
                     }
                 }
-
             }
         }
     }

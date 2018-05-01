@@ -24,21 +24,33 @@ include "../header.php";
         $userId = $_GET["userId"];
         echo "current user".$postUser;
         echo "view the user".$userId;
-        $sql3 = "select * from follow where userId1 = ".$postUser." and userId2 = ".$userId;
-        $result3 =  @mysqli_query($dbc, $sql3);
-        if(mysqli_num_rows($result3) == 0) {
-            echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$userId."=1\"'>Follow the Author</button>";
-            if($_GET['button_follow'.$userId]) {
-                $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$row[userId].")";
-                $result2 = @mysqli_query($dbc, $sql4);
-            }
-        } else {
-            echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_unFollow".$userId."=1\"'>UnFollow the Author</button>";
-            if($_GET['button_follow'.$userId]) {
-                $sql5 = "delete from follow where userId1 = ".$postUser."and userId2 = ".$userId;
-                $result5 = @mysqli_query($dbc, $sql5);
-            }
+        $userName = "select username from users WHERE userId=$userId";
+        $userName_res = @mysqli_query($dbc, $userName);
+        if(!$userName_res) {
+            echo "error in name";
+            $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+            echo $postErr;
+            exit();
         }
+        $name = mysqli_fetch_assoc($userName_res);
+        $userName = $name["username"];
+        echo "<h>$userName</h>";
+        follow($dbc,$row["postId"],$postUser,$user2Id);
+//        $sql3 = "select * from follow where userId1 = ".$postUser." and userId2 = ".$userId;
+//        $result3 =  @mysqli_query($dbc, $sql3);
+//        if(mysqli_num_rows($result3) == 0) {
+//            echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$userId."=1\"'>Follow the Author</button>";
+//            if($_GET['button_follow'.$userId]) {
+//                $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$row[userId].")";
+//                $result2 = @mysqli_query($dbc, $sql4);
+//            }
+//        } else {
+//            echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_unFollow".$userId."=1\"'>UnFollow the Author</button>";
+//            if($_GET['button_follow'.$userId]) {
+//                $sql5 = "delete from follow where userId1 = ".$postUser."and userId2 = ".$userId;
+//                $result5 = @mysqli_query($dbc, $sql5);
+//            }
+//        }
         $sql = "select * from posts WHERE userId = ".$userId;
         $result = @mysqli_query($dbc, $sql);
         if (mysqli_num_rows($result) >= 1) {
@@ -47,8 +59,10 @@ include "../header.php";
                 echo "<li class=\"list-group-item\">
                        <h3>".$row["title"]."</h3>
                        <p>".$row["postDate"]."</p>
-                       <p>".$row["content"]."</p>
-                </li>";
+                       <p>".$row["content"]."</p>";
+                $vote = $row["votes"];
+                echo "<p><a href='/profile/otherUserProfile.php?button_vote=".$row["postId"]."&vote=".$vote."\'>Vote</a></p>";
+                echo "</li>";
             }
         } else {
             echo "<p>Nothing inside</p>";
