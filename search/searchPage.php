@@ -20,10 +20,6 @@
 		  <form action="searchPage.php" method="post">
 		    <div class="input-group">
                 <input type="hidden" name="search_post" value="true">
-<!--                <input type="checkbox" name="Breakfast" value="Breakfast" checked="checked" /> Breakfast-->
-<!--                <input type="checkbox" name="Lunch" value="Lunch" checked="checked" /> Lunch-->
-<!--                <input type="checkbox" name="Dinner" value="Dinner" checked="checked" /> Dinner-->
-<!--                <input type="checkbox" name="Dessert" value="Dessert" checked="checked" /> Dessert-->
                 <input type="text" class="form-control" name="search_string" size="50" placeholder="What do you want to know?" required>
 		      <div class="input-group-btn">
 		        <input type="submit" class="btn btn-danger" value="Search">
@@ -73,7 +69,7 @@
                        <p>".$curRes['Content']."</p>";
             if($logInFlag) {
                 $vote = $curRes['vote'];
-                echo "<p><a href='/search/searchPage.php?button_vote=".$row["postId"]."&vote=".$vote."\'>Vote</a></p>";
+                echo "<p><a href='/search/searchPage.php?button_vote=".$curRes['postId']."&vote=".$vote."\'>Vote</a></p>";
                 $user2Id = $curRes['userId2'];
                 follow($dbc,$postUser,$user2Id);
                 echo "<p><a href=\"/profile/otherUserProfile.php??userId=".$curRes['userId2']."\">View the author profile</a></p>";
@@ -93,8 +89,55 @@
                 followPeople($dbc,$postUser, $user2Id);
             }
         }
-
         mysqli_close($dbc);
+    }
+    function updateVote($dbc, $postId, $vote) {
+        $vote = $vote + 1;
+        echo $vote;
+        echo $postId;
+        $sql2 = "update posts set votes = ".$vote." where postId = \"".$postId."\"";
+        $result2 = @mysqli_query($dbc, $sql2);
+        if(!$result2) {
+            echo "error in query2_vote";
+            $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+            echo $postErr;
+            exit();
+        }
+        $page = 'searchPage.php';
+        $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+        $url = rtrim($url, '/\\');
+        $url .= '/' . $page;
+        header("Location: $url");
+    }
+    function follow($dbc, $postUser, $user2Id){
+//    $sql3 = "select * from user_posts where postId = ".$postId."left join follow on follow.userId1 = ".$postUser." and follow.userId2 = user_posts.userId";
+        $sql3 = "select * from follow where userId1 = ".$postUser." and userId2 = ".$user2Id;
+        $result3 =  @mysqli_query($dbc, $sql3);
+        if(!$result3) {
+            echo "error in query3_checkFollow";
+            $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+            echo $postErr;
+            exit();
+        }
+        if(mysqli_num_rows($result3) == 0) {
+//        echo "<button id=\"btnfun2\" name=\"btnfun2\" onClick='location.href=\"?button_follow".$user2Id."=1\"'>Follow the Author</button>";
+            echo "<p><a href='/profile/generalRecommendation.php?button_follow=".$user2Id."'></a></p>";
+        }
+    }
+    function followPeople($dbc, $postUser, $user2Id) {
+        $sql4 = "insert into follow (userId1, userId2) values (".$postUser.",".$user2Id.")";
+        $result4 = @mysqli_query($dbc, $sql4);
+        if(!$result4) {
+            echo "error in query4_start_follow";
+            $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
+            echo $postErr;
+            exit();
+        }
+        $page = 'searchPage.php';
+        $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+        $url = rtrim($url, '/\\');
+        $url .= '/' . $page;
+        header("Location: $url");
     }
     ?>
 </body>
