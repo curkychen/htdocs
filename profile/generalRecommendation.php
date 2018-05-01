@@ -66,23 +66,8 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 mysqli_close($dbc);
 
 
-//function getUserId($dbc, $postId) {
-//    $idQuery = "select * from user_posts where postId = ".$postId;
-//    $res_id = @mysqli_query($dbc, $idQuery);
-//    if(!$res_id) {
-//        echo "error in find id";
-//        $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
-//        echo $postErr;
-//        exit();
-//    }
-//    $row2 = mysqli_fetch_assoc($res_id);
-//    $user2Id = $row2["userId"];
-//    return $user2Id;
-//}
-
 function updateVote($dbc, $postId, $vote) {
     $vote = $vote + 1;
-//    $sql2 = "update posts set votes = ".$vote . " where postId = " . $postId;
     echo $vote;
     echo $postId;
     $sql2 = "update posts set votes = ".$vote." where postId = \"".$postId."\"";
