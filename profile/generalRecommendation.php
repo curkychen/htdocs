@@ -8,14 +8,28 @@
 session_start();
 echo "enter the general recommendation";
 require(dirname(__FILE__).'/../script/db/db_connect.php');
-if(!isset($_SESSION['login_user'])) {
-    echo "cannot find user";
-    exit;
-}
-echo "find the user";
+//if(!isset($_SESSION['login_user'])) {
+//    echo "cannot find user";
+//    exit;
+//}
+//echo "find the user";
 $postUser = $_SESSION['login_user'];
 //            $tag=$_GET["tag"];
 //            $sql = "select * from posts right join (select follow.userId2 from follow where userId1 = ".$postUser .") on posts.userId = follow.userId2 order by posts.votes";
+
+if($_SERVER["REQUEST_METHOD"] == "GET") {
+    echo "<h>detect get</h>";
+    if(isset($_GET["vote"])) {
+        $vote = $_GET["vote"];
+        $postId = $_GET["button_vote"];
+        updateVote($dbc, $postId, $vote);
+    }
+    if(isset($_GET["button_follow"])) {
+        $user2Id = $_GET["button_follow"];
+        followPeople($dbc,$postUser, $user2Id);
+    }
+}
+
 $sql = "select * from posts order by votes desc";
 $result = @mysqli_query($dbc, $sql);
 if(!$result) {
@@ -37,7 +51,7 @@ if (mysqli_num_rows($result) >= 1) {
                        <p>".$row["content"]."</p>";
         $vote = $row["votes"];
 //        echo "<button id=\"btnfun\" name=\"btnfun\" onClick='\"/profile/generalRecommendation.php\"?button_vote=".$row["postId"]."&vote=".$vote."\"'>Vote</button>";
-        echo "<p><a href='/profile/generalRecommendation.php?button_vote=".$row["postId"]."&vote=".$vote."\'>Vote</a></p>";
+        echo "<p><a href='/profile/generalRecommendation.php?button_vote=".$row["postId"]."&vote=".$vote."\'>Vote(".$vote.")</a></p>";
 //        if($_GET['button'.$row["postId"]]) {
 //            updateVote($dbc, $row["postId"], $vote);
 //        }
@@ -51,18 +65,18 @@ if (mysqli_num_rows($result) >= 1) {
 } else {
     echo "<p>Nothing inside</p>";
 }
-if($_SERVER["REQUEST_METHOD"] == "GET") {
-    echo "detect get";
-    if(isset($_GET["vote"])) {
-        $vote = $_GET["vote"];
-        $postId = $_GET["button_vote"];
-        updateVote($dbc, $postId, $vote);
-    }
-    if(isset($_GET["button_follow"])) {
-        $user2Id = $_GET["button_follow"];
-        followPeople($dbc,$postUser, $user2Id);
-    }
-}
+//if($_SERVER["REQUEST_METHOD"] == "GET") {
+//    echo "<h>detect get</h>";
+//    if(isset($_GET["vote"])) {
+//        $vote = $_GET["vote"];
+//        $postId = $_GET["button_vote"];
+//        updateVote($dbc, $postId, $vote);
+//    }
+//    if(isset($_GET["button_follow"])) {
+//        $user2Id = $_GET["button_follow"];
+//        followPeople($dbc,$postUser, $user2Id);
+//    }
+//}
 mysqli_close($dbc);
 
 
@@ -70,6 +84,7 @@ function updateVote($dbc, $postId, $vote) {
     $vote = $vote + 1;
     echo $vote;
     echo $postId;
+    echo "<h>begin update the vote</h>";
     $sql2 = "update posts set votes = ".$vote." where postId = \"".$postId."\"";
     $result2 = @mysqli_query($dbc, $sql2);
     if(!$result2) {

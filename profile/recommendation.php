@@ -75,8 +75,20 @@ include "../header.php";
             if (mysqli_num_rows($result) >= 1) {
                 while($row = mysqli_fetch_assoc($result)) {
 //            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
+                    $userId2 = $row["userId2"];
+                    $userName = "select username from users WHERE userId=$userId2";
+                    $userName_res = @mysqli_query($dbc, $userName);
+                    if (!$userName_res) {
+                        echo "error in name";
+                        $postErr = "<h1>" . mysqli_error($dbc) . "</h1>";
+                        echo $postErr;
+                        exit();
+                    }
+                    $name = mysqli_fetch_assoc($userName_res);
+                    $userName = $name["username"];
+
                     echo "<li class=\"list-group-item\">
-                            <p>".$row["userId2"]."</p>
+                            <p>".$userName."</p>
                             <a href=\"otherUserProfile.php?userId=".$row["userId2"]."\">View profile</a>
                           </li>";
                 }

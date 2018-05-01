@@ -37,15 +37,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $post_content = $_POST['content'];
         }
-        if (empty($_POST['tag'])) {
-            $tag_error = "Tag is required, please enter";
-        } else {
-            $post_tag = $_POST['tag'];
-        }
+//        if (empty($_POST['tag'])) {
+//            $tag_error = "Tag is required, please enter";
+//        } else {
+//            $post_tag = $_POST['tag'];
+//        }
         $post_user = $_SESSION['login_user'];
 //        $post_votenum = 0;
 
-        if (empty($title_error) && empty($category_error) && empty($content_error) && empty($tag_error) && !empty($post_user)) {
+        if (empty($title_error) && empty($category_error) && empty($content_error) && !empty($post_user)) {
             require('../script/db/db_connect.php');
 //            $post_user = $_SESSION['login_user'];
             $date = date("Y-m-d h:i:sa");

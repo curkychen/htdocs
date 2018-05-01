@@ -15,7 +15,7 @@ if(!$clearTable_res) {
     exit();
 }
 
-$sql_user = "select * from users";
+$sql_user = "select DISTINCT * from users";
 $result = @mysqli_query($dbc, $sql_user);
 if(!$result) {
     echo "<h>error when selecting users</h>";
@@ -28,7 +28,7 @@ if (mysqli_num_rows($result) >= 1) {
     while($row = mysqli_fetch_assoc($result)) {
         $userId = $row["userId"];
         //get the favorite content list
-        $sql_user_content = "select * from favorite where userId = ".$row["userId"];
+        $sql_user_content = "select DISTINCT * from favorite where userId = ".$row["userId"];
         $result_content = @mysqli_query($dbc, $sql_user_content);
         if(!$result_content) {
             echo "<h>error when getting the content list</h>";
@@ -41,7 +41,7 @@ if (mysqli_num_rows($result) >= 1) {
                 $postId = $content["postId"];
                 $postTag = $content["folderName"];
 //                $follow = "select * from (select * from follow where userId1 = $userId) as following left JOIN posts on posts.userId = following.userId2";
-                $follow2 = "select * from (select * from follow where userId1 = $userId) as following 
+                $follow2 = "select DISTINCT * from (select * from follow where userId1 = $userId) as following 
                             left join favorite on following.userId2= favorite.userId and favorite.folderName = '$postTag'
                             left join posts on favorite.userId = posts.userId";
                 $recommend = @mysqli_query($dbc, $follow2);
