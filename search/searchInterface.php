@@ -47,6 +47,7 @@ class SearchEngineForCook implements  searchEngine{
                 $cur['content'] = $row["content"];
                 $cur['postId'] = $row["postId"];
                 $cur['vote'] = $row["votes"];
+                $cur['userId2'] = $row["userId"];
                 if($this->checkTag($row['postId'], $potentialTag, $dbc)) {
                     array_unshift($res, $cur);
                 } else {

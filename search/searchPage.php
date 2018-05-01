@@ -72,8 +72,25 @@
                        <p>".$curRes['postDate']."</p>
                        <p>".$curRes['Content']."</p>";
             if($logInFlag) {
-                    $vote = $curRes['vote'];
-                
+                $vote = $curRes['vote'];
+                echo "<p><a href='/search/searchPage.php?button_vote=".$row["postId"]."&vote=".$vote."\'>Vote</a></p>";
+                $user2Id = $curRes['userId2'];
+                follow($dbc,$postUser,$user2Id);
+                echo "<p><a href=\"/profile/otherUserProfile.php??userId=".$curRes['userId2']."\">View the author profile</a></p>";
+                echo "<p><a href=\"/profile/addTag.php?postId=".$curRes['postId']."\">Add to favorite</a></p>";
+            }
+            echo "</li>";
+        }
+        if($_SERVER["REQUEST_METHOD"] == "GET") {
+            echo "detect get";
+            if(isset($_GET["vote"])) {
+                $vote = $_GET["vote"];
+                $postId = $_GET["button_vote"];
+                updateVote($dbc, $postId, $vote);
+            }
+            if(isset($_GET["button_follow"])) {
+                $user2Id = $_GET["button_follow"];
+                followPeople($dbc,$postUser, $user2Id);
             }
         }
 //        $sql = "select * from posts where ".$searchQuery." order by votes desc";
