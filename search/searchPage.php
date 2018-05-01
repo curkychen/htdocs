@@ -43,18 +43,6 @@
         $breakfast = false;
         $dinner = false;
         $dessert = false;
-//        if($_POST["Lunch"]) {
-//            $lunch = true;
-//        }
-//        if($_POST["Dinner"]) {
-//            $dinner = true;
-//        }
-//        if($_POST["Dessert"]) {
-//            $dessert = true;
-//        }
-//        if($_POST["Breakfast"]) {
-//            $breakfast = true;
-//        }
         $searchEngine = new SearchEngineForCook();
         $query = $searchEngine->searchByQuery($search);
         $querySize = count($query);
@@ -68,10 +56,19 @@
             $searchQuery = $searchQuery . " OR tag LIKE '%$query[$y]%'";
             $searchQuery = $searchQuery . " OR Category LIKE '%$query[$y]%'";
         }
-        $searchResult = $searchEngine->generateSearchResult($searchQuery, $dbc,$potentialTag);
-        $sql = "select * from posts where ".$searchQuery." order by votes desc";
-        $result = @mysqli_query($dbc, $sql);
-        if (mysqli_num_rows($result) >= 1) {
+        $searchResult = $searchEngine->generateSearchResult($searchQuery, $dbc,$query);
+        if(count($searchResult) == 0) {
+            echo "<p>Nothing inside</p>";
+        }
+        foreach ($searchResult as $curRes) {
+            echo "<li class=\"list-group-item\">
+                       <h3>".$row["title"]."</h3>
+                       <p>".$row["postDate"]."</p>
+                       <p>".$row["Content"]."</p>";
+        }
+//        $sql = "select * from posts where ".$searchQuery." order by votes desc";
+//        $result = @mysqli_query($dbc, $sql);
+//        if (mysqli_num_rows($result) >= 1) {
             while($row = mysqli_fetch_assoc($result)) {
                 if(isset($_SESSION['login_user'])){
                     $postUser = $_SESSION['login_user'];
@@ -105,10 +102,7 @@
                        <p>" . $row["Content"] . "</p>";
                     echo "</li>";
                 }
-            }
-        } else {
-            echo "<p>Nothing inside</p>";
-        }
+//            }
         mysqli_close($dbc);
     }
     ?>
