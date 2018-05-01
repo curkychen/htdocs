@@ -21,7 +21,7 @@ include "../header.php";
     require_once('../script/db/db_connect.php');
     $postUser = $_SESSION['login_user'];
     if($_SERVER["REQUEST_METHOD"] == "GET") {
-        if(isset($_GET["vote"])) {
+        if(isset($_GET["vote"]) || isset($_GET["button_follow"])) {
             echo "detect get";
             if(isset($_GET["vote"])) {
                 $vote = $_GET["vote"];
@@ -34,60 +34,61 @@ include "../header.php";
                 echo "get the button_follow is ".$user2Id;
                 followPeople($dbc,$postUser, $user2Id);
             }
-        }
-        $userId = $_GET["userId"];
-        echo "current user".$postUser;
-        echo "view the user".$userId;
-        $userName = "select username from users WHERE userId=$userId";
-        $userName_res = @mysqli_query($dbc, $userName);
-        if(!$userName_res) {
-            echo "error in name";
-            $postErr =  "<h1>" . mysqli_error($dbc) . "</h1>";
-            echo $postErr;
-            exit();
-        }
-        $name = mysqli_fetch_assoc($userName_res);
-        $userName = $name["username"];
-        echo "<p><h1>$userName</h1></p>";
-        if(isset($_SESSION['login_user'])) {
-            follow($dbc, $postUser, $userId);
-        }
-
-        $sql = "select * from posts WHERE userId = ".$userId;
-        $result = @mysqli_query($dbc, $sql);
-        if (mysqli_num_rows($result) >= 1) {
-            while($row = mysqli_fetch_assoc($result)) {
-//            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
-                echo "<li class=\"list-group-item\">
-                       <h3>".$row["title"]."</h3>
-                       <p>".$row["postDate"]."</p>
-                       <p>".$row["content"]."</p>";
-                $vote = $row["votes"];
-                if(isset($_SESSION['login_user'])) {
-                    echo "<p><a href='/profile/otherUserProfile.php?button_vote=" . $row["postId"] . "&vote=".$vote."&userId=".$userId."\'>Vote</a></p>";
-                    echo "<p><a href=\"/profile/addTag.php?postId=".$row["postId"]."\">Add to favorite</a></p>";
-                }
-                echo "</li>";
-            }
         } else {
-            echo "<p>Nothing inside</p>";
+            $userId = $_GET["userId"];
+            echo "current user" . $postUser;
+            echo "view the user" . $userId;
+            $userName = "select username from users WHERE userId=$userId";
+            $userName_res = @mysqli_query($dbc, $userName);
+            if (!$userName_res) {
+                echo "error in name";
+                $postErr = "<h1>" . mysqli_error($dbc) . "</h1>";
+                echo $postErr;
+                exit();
+            }
+            $name = mysqli_fetch_assoc($userName_res);
+            $userName = $name["username"];
+            echo "<p><h1>$userName</h1></p>";
+            if (isset($_SESSION['login_user'])) {
+                follow($dbc, $postUser, $userId);
+            }
+
+            $sql = "select * from posts WHERE userId = " . $userId;
+            $result = @mysqli_query($dbc, $sql);
+            if (mysqli_num_rows($result) >= 1) {
+                while ($row = mysqli_fetch_assoc($result)) {
+//            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
+                    echo "<li class=\"list-group-item\">
+                       <h3>" . $row["title"] . "</h3>
+                       <p>" . $row["postDate"] . "</p>
+                       <p>" . $row["content"] . "</p>";
+                    $vote = $row["votes"];
+                    if (isset($_SESSION['login_user'])) {
+                        echo "<p><a href='/profile/otherUserProfile.php?button_vote=" . $row["postId"] . "&vote=" . $vote . "&userId=".$userId."'>Vote(".$vote.")</a></p>";
+                        echo "<p><a href=\"/profile/addTag.php?postId=" . $row["postId"] . "\">Add to favorite</a></p>";
+                    }
+                    echo "</li>";
+                }
+            } else {
+                echo "<p>Nothing inside</p>";
+            }
         }
     }
 
-    if($_SERVER["REQUEST_METHOD"] == "GET") {
-        echo "detect get";
-        if(isset($_GET["vote"])) {
-            $vote = $_GET["vote"];
-            $postId = $_GET["button_vote"];
-            $userId = $_GET["userId"];
-            updateVote($dbc, $postId, $vote, $userId);
-        }
-        if(isset($_GET["button_follow"])) {
-            $user2Id = $_GET["button_follow"];
-            echo "get the button_follow is ".$user2Id;
-            followPeople($dbc,$postUser, $user2Id);
-        }
-    }
+//    if($_SERVER["REQUEST_METHOD"] == "GET") {
+//        echo "detect get";
+//        if(isset($_GET["vote"])) {
+//            $vote = $_GET["vote"];
+//            $postId = $_GET["button_vote"];
+//            $userId = $_GET["userId"];
+//            updateVote($dbc, $postId, $vote, $userId);
+//        }
+//        if(isset($_GET["button_follow"])) {
+//            $user2Id = $_GET["button_follow"];
+//            echo "get the button_follow is ".$user2Id;
+//            followPeople($dbc,$postUser, $user2Id);
+//        }
+//    }
 
 
     mysqli_close($dbc);

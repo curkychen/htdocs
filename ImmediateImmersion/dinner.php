@@ -21,8 +21,8 @@ if (mysqli_num_rows($result) >= 1) {
                        <p>".$row["postDate"]."</p>
                        <p>".$row["content"]."</p>";
         $vote = $row["votes"];
-        echo "<a href=\"/profile/otherUserProfile.php?userId=".$row["postId"]."\">View the author profile</a>";
-        echo "<p><a href=\"/profile/addTag.php?\postId=".$row["postId"]."\">Add to favorite</a></p>";
+        echo "<p><a href=\"/profile/otherUserProfile.php?userId=".$row["userId"]."\">View the author profile</a></p>";
+        echo "<p><a href=\"/profile/addTag.php?postId=".$row["postId"]."\">Add to favorite</a></p>";
         echo "</li>";
     }
 } else {

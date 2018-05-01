@@ -19,9 +19,9 @@ include "../header.php";
     <a class="btn btn-primary" data-toggle="collapse" href="#friendList" aria-expanded="false" aria-controls="friendList">
         Following people
     </a>
-    <a class="btn btn-primary" data-toggle="collapse" href="#notifications" aria-expanded="false" aria-controls="notifications">
-        Notification
-    </a>
+<!--    <a class="btn btn-primary" data-toggle="collapse" href="#notifications" aria-expanded="false" aria-controls="notifications">-->
+<!--        Notification-->
+<!--    </a>-->
 <!--    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#generalRecommendation" aria-expanded="false" aria-controls="generalRecommendation">-->
 <!--        Recommendation-->
 <!--    </button>-->
@@ -88,8 +88,8 @@ include "../header.php";
         </ul>
     </div>
 </div>
-<div class="collapse" id="notifications">
-    <div class="card card-block">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-    </div>
-</div>
+<!--<div class="collapse" id="notifications">-->
+<!--    <div class="card card-block">-->
+<!--        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
+<!--    </div>-->
+<!--</div>-->
