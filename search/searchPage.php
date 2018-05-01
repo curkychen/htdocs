@@ -36,6 +36,12 @@
     require_once('../script/db/db_connect.php');
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $search = "";
+        $logInFlag = false;
+        $postUser = "";
+        if(isset($_SESSION['login_user'])) {
+            $logInFlag = true;
+            $postUser = $_SESSION['login_user'];
+        }
         if(isset($_POST["search_string"])) {
             $search = $_POST["search_string"];
         }
@@ -62,9 +68,13 @@
         }
         foreach ($searchResult as $curRes) {
             echo "<li class=\"list-group-item\">
-                       <h3>".$row["title"]."</h3>
-                       <p>".$row["postDate"]."</p>
-                       <p>".$row["Content"]."</p>";
+                       <h3>".$curRes['title']."</h3>
+                       <p>".$curRes['postDate']."</p>
+                       <p>".$curRes['Content']."</p>";
+            if($logInFlag) {
+                    $vote = $curRes['vote'];
+                
+            }
         }
 //        $sql = "select * from posts where ".$searchQuery." order by votes desc";
 //        $result = @mysqli_query($dbc, $sql);
