@@ -39,7 +39,7 @@ session_start();
                 echo "</li><li><a href='/SignInUpOut/signUp.html'>SIGN UP</a></li>";
             } else {
                 //payground is used to generate recommendation
-                echo "<li><a href='/playground.php'>PLAYGROUND</a></li>";
+//                echo "<li><a href='/playground.php'>PLAYGROUND</a></li>";
                 echo "<li><a href='/profile/profile.php'>DASHBOARD</a></li>";
                 echo "<li><a href='/SignInUpOut/SignOut.php'>SIGN OUT</a></li>";
             }
