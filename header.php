@@ -44,7 +44,6 @@ session_start();
                 echo "<li><a href='/SignInUpOut/SignOut.php'>SIGN OUT</a></li>";
             }
             ?>
-<!--            <li><a href="#">Sign up</a></li>-->
 
             <li>
                 <form class="form-inline my-2 my-lg-0" method="post" action="/search/searchPage.php">
@@ -57,26 +56,6 @@ session_start();
     </div>
 </nav>
 
-<!--<nav class="navbar navbar-default">-->
-<!--    <div class="container-fluid">-->
-<!--        <div class="navbar-header">-->
-<!--            <a class="navbar-brand" href="index.php">Everyday cooking</a>-->
-<!--        </div>-->
-<!--        <ul class="nav navbar-nav">-->
-<!--            <li class="active"><a href="index.php">Log in</a></li>-->
-<!--            <li><a href="#">Page 1</a></li>-->
-<!--            <li><a href="#">Page 2</a></li>-->
-<!--            <li><a href="#">Page 3</a></li>-->
-<!--        </ul>-->
-<!--        <ul class="nav navbar-nav">-->
-<!--            <li class="active"><a href="index.php">Recommendation By Category</a></li>-->
-<!--            <li><a href="#">Breakfast</a></li>-->
-<!--            <li><a href="#">Lunch</a></li>-->
-<!--            <li><a href="#">Dinner</a></li>-->
-<!--            <li><a href="#">Dessert</a></li>-->
-<!--        </ul>-->
-<!--    </div>-->
-<!--</nav>-->
 
 
 </body>

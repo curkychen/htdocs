@@ -43,7 +43,7 @@ if (mysqli_num_rows($result) >= 1) {
 //                $follow = "select * from (select * from follow where userId1 = $userId) as following left JOIN posts on posts.userId = following.userId2";
                 $follow2 = "select DISTINCT * from (select * from follow where userId1 = $userId) as following 
                             left join favorite on following.userId2= favorite.userId and favorite.folderName = '$postTag'
-                            left join posts on favorite.userId = posts.userId";
+                            left join posts on favorite.userId = posts.userId order by votes";
                 $recommend = @mysqli_query($dbc, $follow2);
                 if(!$recommend) {
                     echo "<h>error when getting the recommend post</h>";
@@ -58,7 +58,14 @@ if (mysqli_num_rows($result) >= 1) {
                         }
                         $recommend_postId = $recommend_post["postId"];
                         $recommend_post_votes = $recommend_post["votes"];
-                        $insert_sql = "insert into Recommendation(userId, postId, votes) values ($userId,'$recommend_postId',$recommend_post_votes)";
+                        $checker = "select * from Recommendation where userId = $userId and postId = '$recommend_postId'";
+                        $result_checker = @mysqli_query($dbc, $checker);
+                        if(mysqli_num_rows($result_checker) >= 1) {
+                            continue;
+                        }
+//                        $insert_sql = "insert into Recommendation(userId, postId, votes) values ($userId,'$recommend_postId',$recommend_post_votes)";
+                        $insert_sql = "insert into Recommendation(userId, postId, votes) 
+                                        values ($userId,'$recommend_postId',$recommend_post_votes)";
                         $result_insert = @mysqli_query($dbc, $insert_sql);
                         if(!$result_insert) {
                             echo "<h>error when generating the recommendation list</h>";

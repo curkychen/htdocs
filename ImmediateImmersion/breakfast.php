@@ -11,7 +11,7 @@ require_once('../script/db/db_connect.php');
 $postUser = $_SESSION['login_user'];
 //            $tag=$_GET["tag"];
 //            $sql = "select * from posts right join (select follow.userId2 from follow where userId1 = ".$postUser .") on posts.userId = follow.userId2 order by posts.votes";
-$sql = "select * from posts where category = \"breakfast\" order by votes";
+$sql = "select * from posts where category = \"breakfast\" order by votes desc";
 $result = @mysqli_query($dbc, $sql);
 if (mysqli_num_rows($result) >= 1) {
     while($row = mysqli_fetch_assoc($result)) {
