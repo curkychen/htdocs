@@ -35,7 +35,7 @@
         $postUser = $_SESSION['login_user'];
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        echo "<h1>begin to search</h1>";
+//        echo "<h1>begin to search</h1>";
         $search = "";
 //        $logInFlag = false;
 //        $postUser = "";
@@ -53,7 +53,7 @@
         include 'searchInterface.php';
         $searchEngine = new SearchEngineForCook();
         $query = $searchEngine->searchByQuery($search);
-        echo "<h1>".$query."</h1>";
+//        echo "<h1>".$query."</h1>";
         $querySize = count($query);
         $searchQuery = "title LIKE '%$query[0]%'";
         $searchQuery = $searchQuery." OR Content LIKE '%$query[0]%'";
@@ -87,7 +87,7 @@
     }
 
     if($_SERVER["REQUEST_METHOD"] == "GET") {
-        echo "detect get";
+//        echo "detect get";
         if(isset($_GET["vote"])) {
             $vote = $_GET["vote"];
             $postId = $_GET["button_vote"];

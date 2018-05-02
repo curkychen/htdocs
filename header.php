@@ -32,8 +32,8 @@ session_start();
 <!--            <li><a href='search/search.php'>Search</a>-->
             <?php
             session_start();
-            echo "enter the navi php";
-            echo $_SESSION['login_user'];
+//            echo "enter the navi php";
+//            echo $_SESSION['login_user'];
             if(empty($_SESSION['login_user'])) {
                 echo "<li><a href='/SignInUpOut/signIn.html'>SIGN IN</a>";
                 echo "</li><li><a href='/SignInUpOut/signUp.html'>SIGN UP</a></li>";
