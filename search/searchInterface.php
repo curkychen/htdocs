@@ -40,6 +40,8 @@ class SearchEngineForCook implements  searchEngine{
             exit();
         }
         $res = array();
+        $res_tag = array();
+        $res_normal = array();
         if (mysqli_num_rows($result) >= 1) {
             while($row = mysqli_fetch_assoc($result)) {
                 $cur = array();
@@ -50,12 +52,14 @@ class SearchEngineForCook implements  searchEngine{
                 $cur['vote'] = $row["votes"];
                 $cur['userId2'] = $row["userId"];
                 if($this->checkTag($row['postId'], $potentialTag, $dbc)) {
-                    array_unshift($res, $cur);
+//                    array_unshift($res, $cur);
+                    $res_tag[] = $cur;
                 } else {
-                    $res[]=$cur;
+                    $res_normal[]=$cur;
                 }
             }
         }
+        $res = array_merge($res_tag, $res_normal);
         return $res;
     }
 

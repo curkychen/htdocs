@@ -42,7 +42,7 @@ if (mysqli_num_rows($result) >= 1) {
     while($row = mysqli_fetch_assoc($result)) {
 //            echo "<p><a class=\"btn btn-secondary\" href=\"tagContent.php?tag=".$row["tag"]."\" role=\"button\">".$row["tag"]."</a></p>";
         if($row["userId"] == $postUser) {
-            echo "skip the post";
+//            echo "skip the post";
             continue;
         }
         echo "<li class=\"list-group-item\">
